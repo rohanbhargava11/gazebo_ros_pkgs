@@ -47,7 +47,7 @@
 #include <boost/thread/mutex.hpp>
 
 #include <sensor_msgs/PointCloud.h>
-
+#include <sensor_msgs/PointCloud2.h>
 namespace gazebo
 {
 
@@ -89,7 +89,7 @@ namespace gazebo
 
     /// \brief ros message
     private: sensor_msgs::PointCloud cloud_msg_;
-   
+    private: sensor_msgs::PointCloud2 cloud_msg_2_;
     /// \brief topic name
     private: std::string topic_name_;
 

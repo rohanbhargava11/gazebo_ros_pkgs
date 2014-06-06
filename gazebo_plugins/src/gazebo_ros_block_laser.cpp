@@ -37,7 +37,7 @@
 
 #include <geometry_msgs/Point32.h>
 #include <sensor_msgs/ChannelFloat32.h>
-
+#include <sensor_msgs/point_cloud_conversion.h>
 #include <tf/tf.h>
 
 #define EPSILON_DIFF 0.000001
@@ -164,7 +164,7 @@ void GazeboRosBlockLaser::Load(sensors::SensorPtr _parent, sdf::ElementPtr _sdf)
   if (this->topic_name_ != "")
   {
     // Custom Callback Queue
-    ros::AdvertiseOptions ao = ros::AdvertiseOptions::create<sensor_msgs::PointCloud>(
+    ros::AdvertiseOptions ao = ros::AdvertiseOptions::create<sensor_msgs::PointCloud2>(
       this->topic_name_,1,
       boost::bind( &GazeboRosBlockLaser::LaserConnect,this),
       boost::bind( &GazeboRosBlockLaser::LaserDisconnect,this), ros::VoidPtr(), &this->laser_queue_);
@@ -351,9 +351,9 @@ void GazeboRosBlockLaser::PutLaserData(common::Time &_updateTime)
     }
   }
   this->parent_ray_sensor_->SetActive(true);
-
+  sensor_msgs::convertPointCloudToPointCloud2(this->cloud_msg_,this->cloud_msg_2_);
   // send data out via ros message
-  this->pub_.publish(this->cloud_msg_);
+  this->pub_.publish(this->cloud_msg_2_);
 
 
 
